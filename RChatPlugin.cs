@@ -65,6 +65,7 @@ namespace Nop.Plugin.Widgets.RChat
 			RChatHistory.Resize(100);
 
 			// locales
+			_localizationService.AddOrUpdatePluginLocaleResource("Plugins.Widgets.RChat.Name"                   , "RChat");
 			_localizationService.AddOrUpdatePluginLocaleResource("Plugins.Widgets.RChat.NumberOfHistoryMessages", "Number of History Messages");
 			_localizationService.AddOrUpdatePluginLocaleResource("Plugins.Widgets.RChat.MessageCharacterLimit"  , "Message Character Limit"   );
 			_localizationService.AddOrUpdatePluginLocaleResource("Plugins.Widgets.RChat.NameCharacterLimit"     , "Name Character Limit"      );
@@ -82,6 +83,7 @@ namespace Nop.Plugin.Widgets.RChat
 			_permissionService.UninstallPermissions(new RChatPermissions());
 
 			// locales
+			_localizationService.DeletePluginLocaleResource("Plugins.Widgets.RChat.Name"                   );
 			_localizationService.DeletePluginLocaleResource("Plugins.Widgets.RChat.NumberOfHistoryMessages");
 			_localizationService.DeletePluginLocaleResource("Plugins.Widgets.RChat.MessageCharacterLimit"  );
 			_localizationService.DeletePluginLocaleResource("Plugins.Widgets.RChat.NameCharacterLimit"     );
