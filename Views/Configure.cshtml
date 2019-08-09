@@ -1,0 +1,85 @@
+﻿@model Nop.Plugin.Widgets.RChat.Models.ConfigurationModel
+
+@{
+	Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync("StoreScopeConfiguration")
+<form asp-controller="WidgetsRChat" asp-action="Configure" method="post">
+	<div class="panel-group">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				@T("Plugins.Widgets.RChat")
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-3">
+						<nop-override-store-checkbox asp-for="numberOfHistoryMessages_OverrideForStore" asp-input="numberOfHistoryMessages" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+						<nop-label asp-for="numberOfHistoryMessages" />
+					</div>
+					<div class="col-md-9">
+						<nop-editor asp-for="numberOfHistoryMessages" />
+						<span asp-validation-for="numberOfHistoryMessages"></span>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-3">
+						<nop-override-store-checkbox asp-for="messageCharacterLimit_OverrideForStore" asp-input="messageCharacterLimit" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+						<nop-label asp-for="messageCharacterLimit" />
+					</div>
+					<div class="col-md-9">
+						<nop-editor asp-for="messageCharacterLimit" />
+						<span asp-validation-for="messageCharacterLimit"></span>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-3">
+						<nop-override-store-checkbox asp-for="nameCharacterLimit_OverrideForStore" asp-input="nameCharacterLimit" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+						<nop-label asp-for="nameCharacterLimit" />
+					</div>
+					<div class="col-md-9">
+						<nop-editor asp-for="nameCharacterLimit" />
+						<span asp-validation-for="nameCharacterLimit"></span>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-3">
+						<nop-override-store-checkbox asp-for="throttleMilliseconds_OverrideForStore" asp-input="throttleMilliseconds" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+						<nop-label asp-for="throttleMilliseconds" />
+					</div>
+					<div class="col-md-9">
+						<nop-editor asp-for="throttleMilliseconds" />
+						<span asp-validation-for="throttleMilliseconds"></span>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-3">
+						<nop-override-store-checkbox asp-for="bannerText_OverrideForStore" asp-input="bannerText" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+						<nop-label asp-for="bannerText" />
+					</div>
+					<div class="col-md-9">
+						<nop-editor asp-for="bannerText" />
+						<span asp-validation-for="bannerText"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-md-9 col-md-offset-3">
+						<input type="submit" name="save" class="btn bg-blue" value="@T("Admin.Common.Save")" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

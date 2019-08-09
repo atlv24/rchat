@@ -1,0 +1,11 @@
+{
+ "Group": "Widgets",
+ "FriendlyName": "RChat",
+ "SystemName": "Widgets.RChat",
+ "Version": "1.0",
+ "SupportedVersions": [ "4.10" ],
+ "Author": "Rodol Phito",
+ "DisplayOrder": 1,
+ "FileName": "Nop.Plugin.Widgets.RChat.dll",
+ "Description": "Signal-R based chat plugin."
+}

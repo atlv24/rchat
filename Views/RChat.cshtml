@@ -1,0 +1,70 @@
+﻿@model Nop.Plugin.Widgets.RChat.Models.RChatModel
+@{
+	Layout = "";
+
+	RChatMessage[] messages = null;
+	int chatHistory = 0;
+
+	if (Model.canView)
+	{
+		Html.AddScriptParts(ResourceLocation.Footer, "https://cdnjs.cloudflare.com/ajax/libs/aspnet-signalr/1.1.4/signalr.min.js");
+		messages = new RChatMessage[Model.numberOfHistoryMessages];
+		chatHistory = RChatHistory.GetMessages(messages);
+	}
+}
+
+<div id="rchat">
+	<p>
+		@Model.bannerText
+	</p>
+	<ol id="rchat-log">
+		@for(int i = chatHistory - 1; i >= 0; i--)
+		{
+			RChatMessage message = messages[i];
+			<li>
+				<a href='/profile/@message.id'>@message.username</a>: <span>@Html.Raw(message.message)</span>
+			</li>
+		}
+	</ol>
+	@if (Model.canSend) {
+	<form id="rchat-form" action="#">
+		<label for="rchat-msg">Message:</label>
+		<textarea type="text" id="rchat-msg" maxlength="@Model.messageCharacterLimit"></textarea>
+		<input type="submit" id="rchat-send" value="Send" class="send"/>
+	</form>
+	}
+</div>
+
+@if (Model.canView) {
+<script asp-location="Footer">
+	const connection=new signalR.HubConnectionBuilder().withUrl("/rchat").build();
+	const log=$('#rchat-log');
+	const msg=$('#rchat-msg');
+	var wait=0;
+
+	const scroll=()=>log.animate({scrollTop:log.prop('scrollHeight')}, 100);
+
+	$(scroll);
+
+	connection.start().catch(err=>console.error(err.toString()));
+
+	connection.on('Send',(id,name,message)=>{
+		let li=document.createElement('li');
+		li.innerHTML="<a href='/profile/"+id+"'>"+name+"</a>: <span>"+message+"</span>";
+		log.append(li);
+		scroll();
+	});
+
+	$('#rchat-form').submit(e=>send()&&e.preventDefault());
+	msg.keyup(e=>e.which==13?send():0);
+
+	function send(){
+		var m=Date.now();
+		var t=m<wait;
+		wait=m+@Model.throttleMilliseconds;
+		if(t)return;
+		connection.invoke('Send',msg.val());
+		msg.val('');
+	}
+</script>
+}
