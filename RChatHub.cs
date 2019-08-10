@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System;
+using Rasputil;
 using Microsoft.AspNetCore.SignalR;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
@@ -61,12 +62,12 @@ namespace Nop.Plugin.Widgets.RChat
 			message = HttpUtility.HtmlEncode(message);
 			if (_permissions.Authorize(RChatPermissions.Embed))
 			{
-				message = RChatUtility.EmbedMedia(message);
-				message = RChatUtility.EmbedVideo(message);
+				message = Rhtml.EmbedMedia(message);
+				message = Rhtml.EmbedVideo(message);
 			}
 			if (_permissions.Authorize(RChatPermissions.Link))
 			{
-				message = RChatUtility.EmbedLinks(message);
+				message = Rhtml.EmbedLinks(message);
 			}
 			return message;
 		}
