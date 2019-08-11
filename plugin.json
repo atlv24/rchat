@@ -4,7 +4,7 @@
  "SystemName": "Widgets.RChat",
  "Version": "1.0",
  "SupportedVersions": [ "4.10" ],
- "Author": "Rodol Phito",
+ "Author": "rodolphito",
  "DisplayOrder": 1,
  "FileName": "Nop.Plugin.Widgets.RChat.dll",
  "Description": "Signal-R based chat plugin."
