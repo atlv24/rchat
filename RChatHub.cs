@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using System.Web;
 using System;
-using Rasputil;
 using Microsoft.AspNetCore.SignalR;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
 using Nop.Services.Configuration;
 using Nop.Services.Security;
+using System.Text.RegularExpressions;
 
 namespace Nop.Plugin.Widgets.RChat
 {
@@ -62,14 +62,26 @@ namespace Nop.Plugin.Widgets.RChat
 			message = HttpUtility.HtmlEncode(message);
 			if (_permissions.Authorize(RChatPermissions.Embed))
 			{
-				message = Rhtml.EmbedMedia(message);
-				message = Rhtml.EmbedVideo(message);
+				message = EmbedMedia(message);
+				message = EmbedVideo(message);
 			}
 			if (_permissions.Authorize(RChatPermissions.Link))
 			{
-				message = Rhtml.EmbedLinks(message);
+				message = EmbedLinks(message);
 			}
 			return message;
 		}
+
+		static Regex links = new Regex(@"(?<=^|\s)https?:\/\/[\w@#%&()+=.?:\/-]+(?=$|\s|[!.,?])", RegexOptions.Compiled);
+		static Regex media = new Regex(@"(?<=^|\s)https?:\/\/[\w@#%&()+=.?:\/-]+\.(?:jpe?g|png|gif)(?=$|\s|[!.,?])", RegexOptions.Compiled);
+		static Regex video = new Regex(@"(?<=^|\s)https?:\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w-]*)(&(?:amp;)?‌​[\w\?‌​=]*)?(?=$|\s|[!.,?])", RegexOptions.Compiled);
+
+		static string EmbedMedia(string message) => media.Replace(message, SubMedia);
+		static string EmbedVideo(string message) => video.Replace(message, SubVideo);
+		static string EmbedLinks(string message) => links.Replace(message, SubLinks);
+
+		static string SubMedia(Match match) => $"<img src='{match.Value}'/>";
+		static string SubVideo(Match match) => $"<iframe src='https://www.youtube-nocookie.com/embed/{match.Groups[1].Value}' allowfullscreen frameborder=0></iframe>";
+		static string SubLinks(Match match) => $"<a href='{match.Value}'>{match.Value}</a>";
 	}
 }
