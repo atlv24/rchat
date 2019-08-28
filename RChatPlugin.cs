@@ -1,11 +1,11 @@
-using System.Collections.Generic;
 using Nop.Core;
-using Nop.Core.Plugins;
 using Nop.Services.Cms;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
+using Nop.Services.Plugins;
 using Nop.Services.Security;
 using Nop.Web.Framework.Infrastructure;
+using System.Collections.Generic;
 
 namespace Nop.Plugin.Widgets.RChat
 {
@@ -42,6 +42,8 @@ namespace Nop.Plugin.Widgets.RChat
 		{
 			return "WidgetsRChat";
 		}
+
+		bool IWidgetPlugin.HideInWidgetList => false;
 
 		public override string GetConfigurationPageUrl()
 		{

@@ -3,9 +3,10 @@ using Nop.Core;
 using Nop.Plugin.Widgets.RChat.Models;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
+using Nop.Services.Messages;
 using Nop.Services.Security;
-using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework;
 
 namespace Nop.Plugin.Widgets.RChat.Controllers
 {
@@ -13,18 +14,21 @@ namespace Nop.Plugin.Widgets.RChat.Controllers
 	public class WidgetsRChatController : BasePluginController
 	{
 		readonly IStoreContext        _storeContext;
+		readonly INotificationService _notificationService;
 		readonly IPermissionService   _permissionService;
 		readonly ISettingService      _settingService;
 		readonly ILocalizationService _localizationService;
 
 		public WidgetsRChatController
 		( IStoreContext        storeContext
+		, INotificationService notificationService
 		, IPermissionService   permissionService
 		, ISettingService      settingService
 		, ILocalizationService localizationService
 		)
 		{
 			_storeContext        = storeContext;
+			_notificationService = notificationService;
 			_permissionService   = permissionService;
 			_settingService      = settingService;
 			_localizationService = localizationService;
@@ -93,7 +97,7 @@ namespace Nop.Plugin.Widgets.RChat.Controllers
 			// now clear settings cache
 			_settingService.ClearCache();
 
-			SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
+			_notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
 			return Configure();
 		}
 	}
